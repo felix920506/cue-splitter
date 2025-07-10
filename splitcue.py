@@ -34,3 +34,17 @@ async def transcodeAudioFilesToFlac(filesDir: str, ext: str = 'wav'):
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 
+'''
+Tags numbered audio files with provided extension in the provided path using the provided cue file. Files are modified in place.
+supports ogg, flac, mp3
+default extension: flac
+'''
+async def tagAudioFiles(filesDir: str, cuepath: str, ext: str = 'flac'):
+    CUETAG_CMD = 'cuetag' # use cuetag.sh for macos homebrew install
+    files = os.listdir(filesDir)
+    files.sort()
+    files = [os.path.join(filesDir, i) for i in files if i.lower().endswith('.'+ext)]
+    cmd = [CUETAG_CMD, cuepath] + files
+    proc = await asyncio.create_subprocess_exec(*cmd)
+    await proc.wait()
+

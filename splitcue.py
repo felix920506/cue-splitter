@@ -24,6 +24,20 @@ async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', ou
     await proc.wait()
 
 '''
+Splits the provided audio cd bin file using the provided cue file into wav files. Original files will not be touched.
+'''
+async def splitBinFile(filepath: str, cuepath: str, outname: str = 'track', outpath: str = None):
+    outprefix = os.path.join(outpath, outname+'-')
+    if outpath is not None:
+        try:
+            os.makedirs(outpath)
+        except:
+            pass
+    cmd = ['bchunk', '-w', filepath, cuepath, outprefix]
+    proc = await asyncio.create_subprocess_exec(*cmd)
+    await proc.wait()
+
+'''
 Transcodes all audio files with the given extension in the provided directory into flac files. Original files will not be touched.
 default extension: wav
 '''

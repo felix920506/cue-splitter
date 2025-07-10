@@ -62,3 +62,18 @@ async def tagAudioFiles(filesDir: str, cuepath: str, ext: str = 'flac'):
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 
+'''
+Main function used for testing
+'''
+async def main():
+    await splitAudioFile('./flac-test/test.flac', './flac-test/test.cue', 'track', './flac-test/out')
+    await transcodeAudioFilesToFlac('./flac-test/out/')
+    await tagAudioFiles('./flac-test/out/', './flac-test/test.cue')
+
+    await splitBinFile('./bin-test/test.bin', './bin-test/test.cue', 'track', './bin-test/out')
+    await transcodeAudioFilesToFlac('./bin-test/out')
+    await tagAudioFiles('./bin-test/out/', './bin-test/test.cue')
+
+
+if __name__ == '__main__':
+    asyncio.run(main())

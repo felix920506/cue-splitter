@@ -63,16 +63,34 @@ async def tagAudioFiles(filesDir: str, cuepath: str, ext: str = 'flac'):
     await proc.wait()
 
 '''
+Add image to flac file
+'''
+async def addImgToFlac(filepath: str, imagepath: str):
+    cmd = ['metaflac', '--import-picture-from='+imagepath, filepath]
+    proc = await asyncio.create_subprocess_exec(*cmd)
+    await proc.wait()
+
+'''
+Add image to multiple flac files
+'''
+async def addImgToFlacs(filesDir: str, imagepath: str):
+    files = os.listdir(filesDir)
+    files = [os.path.join(filesDir, i) for i in files if i.lower().endswith('.flac')]
+    ops = [addImgToFlac(i, imagepath) for i in files]
+    await asyncio.gather(*ops)
+
+'''
 Main function used for testing
 '''
 async def main():
     await splitAudioFile('./flac-test/test.flac', './flac-test/test.cue', 'track', './flac-test/out')
     await transcodeAudioFilesToFlac('./flac-test/out/')
     await tagAudioFiles('./flac-test/out/', './flac-test/test.cue')
+    await addImgToFlacs('./flac-test/out/', './flac-test/cover.jpg')
 
-    await splitBinFile('./bin-test/test.bin', './bin-test/test.cue', 'track', './bin-test/out')
-    await transcodeAudioFilesToFlac('./bin-test/out')
-    await tagAudioFiles('./bin-test/out/', './bin-test/test.cue')
+    # await splitBinFile('./bin-test/test.bin', './bin-test/test.cue', 'track', './bin-test/out')
+    # await transcodeAudioFilesToFlac('./bin-test/out')
+    # await tagAudioFiles('./bin-test/out/', './bin-test/test.cue')
 
 
 if __name__ == '__main__':

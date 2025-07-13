@@ -111,7 +111,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: create and push manifest
-        run: docker buildx imagetools --tag create ghcr.io/felix920506/cue-splitter:latest ghcr.io/felix920506/cue-splitter:latest-amd64 ghcr.io/felix920506/cue-splitter:latest-arm64
+        run: docker buildx imagetools create --tag ghcr.io/felix920506/cue-splitter:latest ghcr.io/felix920506/cue-splitter:latest-amd64 ghcr.io/felix920506/cue-splitter:latest-arm64
 
       # - name: Create and push manifest images
       #   uses: Noelware/docker-manifest-action@v1

@@ -13,8 +13,8 @@ async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', ou
     if outpath is not None:
         try:
             os.makedirs(outpath)
-        except:
-            pass
+        except Exception as e:
+            print(f'Failed to create "{outpath}": {e}')
 
         cmd.extend(['-d', outpath])
     

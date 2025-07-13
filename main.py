@@ -5,8 +5,8 @@ import os
 import os.path
 import splitcue
 
-INPUT_DIR = './input'
-OUTPUT_DIR = './output'
+INPUT_DIR = '/input'
+OUTPUT_DIR = '/output'
 IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.jpe']
 AUDIO_EXTENSIONS = ['.flac', '.bin', '.wav']
 DELETE = True

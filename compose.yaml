@@ -1,0 +1,11 @@
+# FOR DEVELOPMENT ONLY!!!
+# PLEASE USE THE CONFIG IN THE README FILE!!!
+
+services:
+  cuesplitter:
+    build:
+      context: .
+    volumes:
+      - ./input:/input
+      - ./output:/output
+    user: 1000:1000

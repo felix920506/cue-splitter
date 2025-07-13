@@ -6,7 +6,7 @@ import os.path
 Splits the provided audio file using the provided cue file into wav files. Original files will not be touched.
 Supports all formats supported by shntools
 '''
-async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', outpath: str = None):
+async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', outpath: str = None, mute = False):
     cmd = ['shnsplit', '-f', cuepath]
     if outname is not None:
         cmd.extend(['-t', f'{outname}-%n'])
@@ -26,7 +26,7 @@ async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', ou
 '''
 Splits the provided audio cd bin file using the provided cue file into wav files. Original files will not be touched.
 '''
-async def splitBinFile(filepath: str, cuepath: str, outname: str = 'track', outpath: str = None):
+async def splitBinFile(filepath: str, cuepath: str, outname: str = 'track', outpath: str = None, mute = False):
     outprefix = os.path.join(outpath, outname+'-')
     if outpath is not None:
         try:
@@ -38,13 +38,16 @@ async def splitBinFile(filepath: str, cuepath: str, outname: str = 'track', outp
     await proc.wait()
 
 '''
-Transcodes all audio files with the given extension in the provided directory into flac files. Original files will not be touched.
+Transcodes all audio files with the given extension in the provided directory into flac files. If delete is true the source file will be deleted if the transcode is successful
 default extension: wav
 '''
-async def transcodeAudioFilesToFlac(filesDir: str, ext: str = 'wav'):
+async def transcodeAudioFilesToFlac(filesDir: str, ext: str = 'wav', delete = False):
     files = os.listdir(filesDir)
     files = [os.path.join(filesDir, i) for i in files if i.lower().endswith('.'+ext)]
-    cmd = ['flac', '-8'] + files
+    cmd = ['flac', '-8']
+    if delete:
+        cmd.append('--delete-input-file')
+    cmd.extend(files)
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 
@@ -84,7 +87,7 @@ Main function used for testing
 '''
 async def main():
     await splitAudioFile('./flac-test/test.flac', './flac-test/test.cue', 'track', './flac-test/out')
-    await transcodeAudioFilesToFlac('./flac-test/out/')
+    await transcodeAudioFilesToFlac('./flac-test/out/', delete=True)
     await tagAudioFiles('./flac-test/out/', './flac-test/test.cue')
     await addImgToFlacs('./flac-test/out/', './flac-test/cover.jpg')
 

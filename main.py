@@ -5,8 +5,11 @@ import os
 import os.path
 import splitcue
 
-INPUT_DIR = '/input'
-OUTPUT_DIR = '/output'
+in_env = os.getenv('CUESPLITTER_INPUT_DIR')
+out_env = os.getenv('CUESPLITTER_OUTPUT_DIR')
+
+INPUT_DIR = './input' if in_env is None else in_env
+OUTPUT_DIR = './output' if out_env is None else out_env
 IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.jpe']
 AUDIO_EXTENSIONS = ['.flac', '.bin', '.wav']
 DELETE = True
@@ -118,4 +121,8 @@ async def main():
 
 
 if __name__ == "__main__":
+    assert not os.path.isfile(INPUT_DIR)
+    assert not os.path.isfile(OUTPUT_DIR)
+    os.makedirs(INPUT_DIR, exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     asyncio.run(main())

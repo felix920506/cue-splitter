@@ -30,8 +30,12 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-# Install system dependencies
+# Install external dependencies
 RUN apt update && apt -y install shntool cuetools flac
+
+# Set input and output dirs
+ENV CUESPLITTER_INPUT_DIR=/input
+ENV CUESPLITTER_OUTPUT_DIR=/output
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.

@@ -111,8 +111,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create and push manifest images
-        uses: Noelware/docker-manifest-action@master
+        uses: Noelware/docker-manifest-action@v1
         with:
             inputs: ghcr.io/felix920506/cue-splitter:latest
-            tags: ghcr.io/felix920506/cue-splitter:latest-amd64,ghcr.io/felix920506/cue-splitter:latest-arm64
+            images: ghcr.io/felix920506/cue-splitter:latest-amd64,ghcr.io/felix920506/cue-splitter:latest-arm64
             push: true

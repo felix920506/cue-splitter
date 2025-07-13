@@ -23,7 +23,7 @@ jobs:
           version: "0.7.20"
 
       - name: export requirements.txt
-        run: uv pip freeze > requirements.txt
+        run: uv pip compile requirements.txt
 
       - name: upload requirements.txt
         uses: actions/upload-artifact@v4

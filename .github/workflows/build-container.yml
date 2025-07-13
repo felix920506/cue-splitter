@@ -21,9 +21,12 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           version: "0.7.20"
+      
+      - name: uv sync
+        run: uv sync
 
       - name: export requirements.txt
-        run: uv pip compile requirements.txt
+        run: uv pip freeze > requirements.txt
 
       - name: upload requirements.txt
         uses: actions/upload-artifact@v4

@@ -110,9 +110,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create and push manifest images
-        uses: Noelware/docker-manifest-action@v1
-        with:
-            inputs: ghcr.io/felix920506/cue-splitter:latest
-            tags: ghcr.io/felix920506/cue-splitter:latest-amd64,ghcr.io/felix920506/cue-splitter:latest-arm64
-            push: true
+      - name: create and push manifest
+        run: docker buildx imagetools create ghcr.io/felix920506/cue-splitter:latest ghcr.io/felix920506/cue-splitter:latest-amd64 ghcr.io/felix920506/cue-splitter:latest-arm64
+
+      # - name: Create and push manifest images
+      #   uses: Noelware/docker-manifest-action@v1
+      #   with:
+      #       inputs: ghcr.io/felix920506/cue-splitter:latest
+      #       tags: ghcr.io/felix920506/cue-splitter:latest-amd64,ghcr.io/felix920506/cue-splitter:latest-arm64
+      #       push: true

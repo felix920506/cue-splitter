@@ -114,5 +114,5 @@ jobs:
         uses: Noelware/docker-manifest-action@v1
         with:
             inputs: ghcr.io/felix920506/cue-splitter:latest
-            images: ghcr.io/felix920506/cue-splitter:latest-amd64,ghcr.io/felix920506/cue-splitter:latest-arm64
+            tags: ghcr.io/felix920506/cue-splitter:latest-amd64,ghcr.io/felix920506/cue-splitter:latest-arm64
             push: true

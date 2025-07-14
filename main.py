@@ -110,9 +110,9 @@ async def main():
                     continue
 
                 if name in eventcache:
-                    eventcache[name].append(abspath)
+                    eventcache[name].add(abspath)
                 else:
-                    eventcache[name] = [abspath]
+                    eventcache[name] = {abspath}
                 
                 if len(eventcache[name]) == 2:
                     await process(abspath)

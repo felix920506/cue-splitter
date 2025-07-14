@@ -20,6 +20,7 @@ async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', ou
     
     cmd.append(filepath)
     
+    print('Calling command:', *cmd)
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 
@@ -34,6 +35,7 @@ async def splitBinFile(filepath: str, cuepath: str, outname: str = 'track', outp
         except:
             pass
     cmd = ['bchunk', '-w', filepath, cuepath, outprefix]
+    print('Calling command:', *cmd)
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 
@@ -48,6 +50,7 @@ async def transcodeAudioFilesToFlac(filesDir: str, ext: str = 'wav', delete = Fa
     if delete:
         cmd.append('--delete-input-file')
     cmd.extend(files)
+    print('Calling command:', *cmd)
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 
@@ -62,6 +65,7 @@ async def tagAudioFiles(filesDir: str, cuepath: str, ext: str = 'flac'):
     files.sort()
     files = [os.path.join(filesDir, i) for i in files if i.lower().endswith('.'+ext)]
     cmd = [CUETAG_CMD, cuepath] + files
+    print('Calling command:', *cmd)
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 
@@ -70,6 +74,7 @@ Add image to flac file
 '''
 async def addImgToFlac(filepath: str, imagepath: str):
     cmd = ['metaflac', '--import-picture-from='+imagepath, filepath]
+    print('Calling command:', *cmd)
     proc = await asyncio.create_subprocess_exec(*cmd)
     await proc.wait()
 

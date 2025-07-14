@@ -7,6 +7,7 @@ Splits the provided audio file using the provided cue file into wav files. Origi
 Supports all formats supported by shntools
 '''
 async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', outpath: str = None, mute = False):
+    assert cuepath != filepath
     cmd = ['shnsplit', '-f', cuepath]
     if outname is not None:
         cmd.extend(['-t', f'{outname}-%n'])
@@ -28,6 +29,7 @@ async def splitAudioFile(filepath: str, cuepath: str, outname: str = 'track', ou
 Splits the provided audio cd bin file using the provided cue file into wav files. Original files will not be touched.
 '''
 async def splitBinFile(filepath: str, cuepath: str, outname: str = 'track', outpath: str = None, mute = False):
+    assert cuepath != filepath
     outprefix = os.path.join(outpath, outname+'-')
     if outpath is not None:
         try:
